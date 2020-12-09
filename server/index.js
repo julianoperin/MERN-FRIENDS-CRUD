@@ -11,6 +11,7 @@ mongoose.connect(
   { useNewUrlParser: true }
 );
 
+//! INSERT
 app.get("/insert", async (req, res) => {
   const friend = new FriendModel({
     name: "Patricia",
@@ -19,6 +20,17 @@ app.get("/insert", async (req, res) => {
   });
   await friend.save();
   res.send("Friend inserted!");
+});
+
+//! READ
+app.get("/read", async (req, res) => {
+  FriendModel.find({}, (err, result) => {
+    if (err) {
+      res.send(err);
+    } else {
+      res.send(result);
+    }
+  });
 });
 
 //! SERVER
