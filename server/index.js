@@ -4,7 +4,11 @@ const mongoose = require("mongoose");
 
 const cors = require("cors");
 
+//! CORS
 app.use(cors());
+
+//! JSON
+app.use(express.json());
 
 //! FRIENDS SCHEMA
 const FriendModel = require("./models/Friends");
@@ -15,15 +19,24 @@ mongoose.connect(
   { useNewUrlParser: true }
 );
 
-//! INSERT
-app.get("/insert", async (req, res) => {
+//! POST
+app.post("/insert", async (req, res) => {
+  const name = req.body.name;
+  const age = req.body.age;
+  const description = req.body.description;
+
   const friend = new FriendModel({
-    name: "Patricia",
-    age: 26,
-    description: "She's AWESOME!!!",
+    name: name,
+    age: age,
+    description: description,
   });
-  await friend.save();
-  res.send("Friend inserted!");
+
+  try {
+    await friend.save();
+    console.log("Inserted new friend");
+  } catch (err) {
+    console.log(err);
+  }
 });
 
 //! READ
