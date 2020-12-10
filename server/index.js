@@ -33,6 +33,7 @@ app.post("/insert", async (req, res) => {
 
   try {
     await friend.save();
+    res.send(friend); //! Send back the object to get the id
     console.log("Inserted new friend");
   } catch (err) {
     console.log(err);
@@ -56,19 +57,10 @@ app.put("/update", async (req, res) => {
 });
 
 //! DELETE
-app.delete("/delete:id", async (req, res) => {
+app.delete("/delete/:id", async (req, res) => {
   const id = req.params.id;
-
-  if (err) {
-    res.send(err);
-  }
-
-  try {
-    await (await FriendModel.findByIdAndRemove(id)).exec();
-    res.send("Deleted");
-  } catch (error) {
-    console.log(error);
-  }
+  await FriendModel.findByIdAndRemove(id).exec();
+  res.send("Item Deleted");
 });
 
 //! READ
