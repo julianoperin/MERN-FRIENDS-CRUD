@@ -39,6 +39,38 @@ app.post("/insert", async (req, res) => {
   }
 });
 
+//! UPDATE
+app.put("/update", async (req, res) => {
+  const newFriendName = req.body.newFriendName;
+  const id = req.body.id;
+
+  try {
+    await FriendModel.findById(id, (err, updatedFriend) => {
+      updatedFriend.name = newFriendName;
+      updatedFriend.save();
+      res.send("update");
+    });
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+//! DELETE
+app.delete("/delete:id", async (req, res) => {
+  const id = req.params.id;
+
+  if (err) {
+    res.send(err);
+  }
+
+  try {
+    await (await FriendModel.findByIdAndRemove(id)).exec();
+    res.send("Deleted");
+  } catch (error) {
+    console.log(error);
+  }
+});
+
 //! READ
 app.get("/read", async (req, res) => {
   FriendModel.find({}, (err, result) => {
