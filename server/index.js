@@ -48,11 +48,11 @@ app.put("/update", async (req, res) => {
     await FriendModel.findById(id, (err, updatedFriend) => {
       updatedFriend.name = newFriendName;
       updatedFriend.save();
-      res.send("update");
     });
   } catch (error) {
     console.log(error);
   }
+  res.send("updated");
 });
 
 //! DELETE
